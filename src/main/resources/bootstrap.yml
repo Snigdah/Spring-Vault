@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: audit
+
+  cloud:
+    vault:
+      uri: http://localhost:8200
+      authentication: approle
+      app-role:
+        role-id: 4388998a-b9ee-d0fc-d045-c428f8fcfc26        # Replace with actual Role ID
+        secret-id: 01a13dd2-ae05-fa85-261b-1046630e0a3b    # Replace with actual Secret ID
+      generic:
+        enabled: false
+      database:
+        enabled: true
+    config:
+      import: optional:vault://
