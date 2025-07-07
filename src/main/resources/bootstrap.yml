@@ -1,17 +1,17 @@
 spring:
   application:
     name: audit
-
   cloud:
     vault:
-      uri: http://localhost:8200
+      enabled: true
+      scheme: http
+      host: 127.0.0.1
+      port: 8200
       authentication: approle
       app-role:
-        role-id: 4388998a-b9ee-d0fc-d045-c428f8fcfc26        # Replace with actual Role ID
-        secret-id: 01a13dd2-ae05-fa85-261b-1046630e0a3b    # Replace with actual Secret ID
-      generic:
-        enabled: false
+        role-id: "a245df3b-0584-213e-e726-9d795ef83c26"   
+        secret-id: "4ad202dd-c24f-4139-9f88-8c9c7fb9e784"
       database:
         enabled: true
-    config:
-      import: optional:vault://
+        backend: database
+        role: audit-role
