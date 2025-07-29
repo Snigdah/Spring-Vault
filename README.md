@@ -101,6 +101,16 @@ vault write database/roles/audit-role ^
     max_ttl="24h"
 ```
 
+Grants connection + table access +  revoked the lease.
+```bash
+vault write database/roles/audit-role ^
+db_name=postgresql ^
+creation_statements="CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}'; GRANT CONNECT ON DATABASE development TO \"{{name}}\"; GRANT USAGE ON SCHEMA public TO \"{{name}}\"; GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO \"{{name}}\"; ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO \"{{name}}\";" ^
+revocation_statements="REASSIGN OWNED BY \"{{name}}\" TO postgres; DROP OWNED BY \"{{name}}\";" ^
+default_ttl="1h" ^
+max_ttl="24h"
+```
+
 Creates a Vault role to dynamically generate database users with 1-hour validity.
 
 ### 7. Create AppRole for the Spring Boot Application
